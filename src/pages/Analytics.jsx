@@ -149,22 +149,8 @@ const Analytics = () => {
     };
   };
 
-  if (!isConfigured) {
-    return (
-      <div className="space-y-6">
-        <div className="golf-card text-center">
-          <div className="text-4xl mb-4">📊</div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Pool Analytics</h2>
-          <p className="text-gray-600 mb-4">
-            Configure your Google Sheets integration to unlock detailed analytics and insights.
-          </p>
-          <div className="text-sm text-blue-600">
-            Set up your pool data to see trends, performance charts, and competitive analysis
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Analytics are always available since sheets are hardcoded
+  // Removed configuration check - data will load automatically
 
   const insights = getInsightsSummary();
 

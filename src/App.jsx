@@ -9,7 +9,7 @@ import ScheduleStatus from './components/Dashboard/ScheduleStatus';
 import Analytics from './pages/Analytics';
 
 function App() {
-  const [currentView, setCurrentView] = useState('setup'); // 'setup', 'dashboard', or 'analytics'
+  const [currentView, setCurrentView] = useState('dashboard'); // 'setup', 'dashboard', or 'analytics'
 
   const handleSetupComplete = () => {
     setCurrentView('dashboard');

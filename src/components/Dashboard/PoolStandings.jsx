@@ -19,18 +19,8 @@ const PoolStandings = () => {
     }
   }, [isConfigured]);
 
-  if (!isConfigured) {
-    return (
-      <div className="golf-card text-center">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          📊 Pool Standings
-        </h2>
-        <p className="text-gray-600">
-          Configure your Google Sheets connection to see pool standings.
-        </p>
-      </div>
-    );
-  }
+  // Auto-fetch data since sheets are now hardcoded
+  // Removed configuration check - sheets URLs are built into the app
 
   if (loading) {
     return (

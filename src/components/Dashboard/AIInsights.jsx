@@ -107,20 +107,8 @@ const AIInsights = () => {
     return labels[type] || 'AI Analysis';
   };
 
-  if (!sheetsConfigured) {
-    return (
-      <div className="golf-card text-center">
-        <div className="text-4xl mb-4">🤖</div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">AI Pool Analysis</h2>
-        <p className="text-gray-600 mb-4">
-          Configure your Google Sheets integration to unlock AI-powered pool insights and commentary.
-        </p>
-        <div className="text-sm text-blue-600">
-          Set up your pool data first to get personalized AI analysis
-        </div>
-      </div>
-    );
-  }
+  // Sheets are now hardcoded, so AI insights are always available
+  // Removed configuration check since sheet URLs are built into the app
 
   return (
     <div className="space-y-6">

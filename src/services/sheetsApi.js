@@ -3,12 +3,14 @@
  * Reads data from published Google Sheets (no authentication required)
  */
 
-// Configuration for sheet URLs (to be updated with actual URLs)
+// Hardcoded sheet URLs for golf majors pool
 const SHEET_CONFIG = {
-  // These will be updated when the sheet owner publishes the sheets
-  poolData: 'https://docs.google.com/spreadsheets/d/SHEET_ID/pub?gid=SHEET_GID&single=true&output=csv',
-  poolRules: 'https://docs.google.com/spreadsheets/d/SHEET_ID/pub?gid=RULES_GID&single=true&output=csv',
-  participants: 'https://docs.google.com/spreadsheets/d/SHEET_ID/pub?gid=PARTICIPANTS_GID&single=true&output=csv'
+  // Main pool data with participant scores, picks, and standings
+  poolData: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR4Ymy1FkaujhEJ68z8_6rnroO0z9O9fcyRNPo8qNOSZNL6qR4wDVfud79ejaR9CijcBis4O_-29Uw-/pub?gid=0&single=true&output=csv',
+  // Pool rules (same sheet for now, can be updated to different tab/sheet if needed)
+  poolRules: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR4Ymy1FkaujhEJ68z8_6rnroO0z9O9fcyRNPo8qNOSZNL6qR4wDVfud79ejaR9CijcBis4O_-29Uw-/pub?gid=0&single=true&output=csv',
+  // Participants data (same as poolData)
+  participants: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR4Ymy1FkaujhEJ68z8_6rnroO0z9O9fcyRNPo8qNOSZNL6qR4wDVfud79ejaR9CijcBis4O_-29Uw-/pub?gid=0&single=true&output=csv'
 };
 
 /**
