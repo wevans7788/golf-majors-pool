@@ -19,25 +19,6 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# Scheduled Functions for Automated Updates
-[[plugins]]
-  package = "@netlify/plugin-functions"
-
-# Schedule Google Sheets monitoring every 4 hours
-[[functions]]
-  function = "scheduled-sheets-update"
-  schedule = "0 */4 * * *"  # Every 4 hours
-
-# Schedule daily AI content generation at 10 PM
-[[functions]]
-  function = "scheduled-ai-update"
-  schedule = "0 22 * * *"   # 10 PM daily
-
-# Weekly pool summary generation on Monday mornings
-[[functions]]
-  function = "scheduled-weekly-summary"
-  schedule = "0 10 * * 1"   # Monday 10 AM
-
 # Headers for security and caching
 [[headers]]
   for = "/*"
