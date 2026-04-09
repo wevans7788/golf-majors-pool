@@ -5,11 +5,11 @@
 
 // Hardcoded sheet URLs for golf majors pool
 const SHEET_CONFIG = {
-  // Main pool data with participant scores, picks, and standings
+  // Main pool scoreboard with participant scores, picks, and standings
   poolData: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR4Ymy1FkaujhEJ68z8_6rnroO0z9O9fcyRNPo8qNOSZNL6qR4wDVfud79ejaR9CijcBis4O_-29Uw-/pub?gid=0&single=true&output=csv',
-  // Pool rules (same sheet for now, can be updated to different tab/sheet if needed)
-  poolRules: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR4Ymy1FkaujhEJ68z8_6rnroO0z9O9fcyRNPo8qNOSZNL6qR4wDVfud79ejaR9CijcBis4O_-29Uw-/pub?gid=0&single=true&output=csv',
-  // Participants data (same as poolData)
+  // Pool rules and scoring system (separate sheet tab)
+  poolRules: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR4Ymy1FkaujhEJ68z8_6rnroO0z9O9fcyRNPo8qNOSZNL6qR4wDVfud79ejaR9CijcBis4O_-29Uw-/pub?gid=1150229711&single=true&output=csv',
+  // Participants data (same as scoreboard)
   participants: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR4Ymy1FkaujhEJ68z8_6rnroO0z9O9fcyRNPo8qNOSZNL6qR4wDVfud79ejaR9CijcBis4O_-29Uw-/pub?gid=0&single=true&output=csv'
 };
 
