@@ -4,24 +4,77 @@
 
 @layer base {
   body {
-    @apply font-sans bg-gray-50 text-gray-900;
+    @apply font-sans bg-masters-cream text-masters-dark;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-masters-dark;
   }
 }
 
 @layer components {
+  /* Clean Masters-themed card */
   .golf-card {
-    @apply bg-white rounded-lg shadow-md p-6 border border-gray-200;
+    @apply bg-white rounded-lg shadow-sm p-6 border border-masters-green/10 hover:shadow-md transition-shadow duration-300;
   }
 
+  /* Elegant Masters button */
   .golf-button {
-    @apply bg-golf-green hover:bg-golf-accent text-white font-semibold py-2 px-4 rounded-md transition duration-200;
+    @apply bg-masters-green hover:bg-masters-dark text-white font-medium py-3 px-6 rounded-md transition-all duration-200 shadow-sm hover:shadow-md;
   }
 
+  /* Secondary button variant */
+  .golf-button-secondary {
+    @apply bg-white hover:bg-masters-cream text-masters-green border border-masters-green font-medium py-3 px-6 rounded-md transition-all duration-200;
+  }
+
+  /* Gold accent button for special actions */
+  .golf-button-gold {
+    @apply bg-masters-gold hover:bg-yellow-500 text-masters-dark font-medium py-3 px-6 rounded-md transition-all duration-200 shadow-sm;
+  }
+
+  /* Clean leaderboard styling */
   .leaderboard-row {
-    @apply flex justify-between items-center py-2 px-4 border-b border-gray-100 hover:bg-gray-50;
+    @apply flex justify-between items-center py-3 px-4 border-b border-masters-green/5 hover:bg-masters-green/5 transition-colors duration-150;
   }
 
+  /* Minimalist pool standing cards */
   .pool-standing {
-    @apply bg-gradient-to-r from-golf-green to-golf-accent text-white rounded-lg p-4 shadow-lg;
+    @apply bg-gradient-to-r from-masters-green to-masters-light text-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow duration-300;
+  }
+
+  /* Masters-themed gradients */
+  .masters-gradient {
+    @apply bg-gradient-to-br from-masters-green via-masters-light to-masters-gold;
+  }
+
+  .masters-gradient-subtle {
+    @apply bg-gradient-to-r from-white to-masters-cream;
+  }
+
+  /* Clean input styling */
+  .golf-input {
+    @apply border border-masters-green/20 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-masters-green/20 focus:border-masters-green transition-colors duration-200;
+  }
+
+  /* Position badges */
+  .position-badge {
+    @apply inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold;
+  }
+
+  .position-1 {
+    @apply bg-masters-gold text-masters-dark;
+  }
+
+  .position-2 {
+    @apply bg-gray-300 text-gray-800;
+  }
+
+  .position-3 {
+    @apply bg-orange-300 text-orange-800;
+  }
+
+  .position-other {
+    @apply bg-masters-green/10 text-masters-green;
   }
 }

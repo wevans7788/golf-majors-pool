@@ -78,18 +78,16 @@ export function useSheetsData() {
   };
 
   /**
-   * Load configuration from localStorage
+   * Auto-fetch data on hook initialization since URLs are hardcoded
    */
   useEffect(() => {
-    const savedConfig = localStorage.getItem('golfPoolSheetConfig');
-    if (savedConfig) {
-      try {
-        const config = JSON.parse(savedConfig);
-        sheetsApi.updateSheetConfig(config);
-      } catch (err) {
-        console.error('Failed to load saved sheet config:', err);
-      }
-    }
+    // Since sheets URLs are now hardcoded, automatically fetch data
+    fetchData();
+
+    // Set up auto-refresh every 4 hours (14400000 ms)
+    const interval = setInterval(fetchData, 4 * 60 * 60 * 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return {
@@ -110,7 +108,7 @@ export function useSheetsData() {
 
     // Computed values
     totalParticipants: participants.length,
-    isConfigured: poolStandings.length > 0 || participants.length > 0
+    isConfigured: true // Always configured since sheet URLs are hardcoded
   };
 }
 

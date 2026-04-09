@@ -53,42 +53,43 @@ const PoolStandings = () => {
 
   const getRankColor = (rank) => {
     switch (rank) {
-      case 1: return 'bg-yellow-100 border-yellow-300 text-yellow-800';
-      case 2: return 'bg-gray-100 border-gray-300 text-gray-800';
-      case 3: return 'bg-orange-100 border-orange-300 text-orange-800';
-      default: return 'bg-white border-gray-200 text-gray-700';
+      case 1: return 'bg-masters-gold/20 border-masters-gold/30 text-masters-dark';
+      case 2: return 'bg-gray-50 border-gray-200 text-gray-800';
+      case 3: return 'bg-orange-50 border-orange-200 text-orange-800';
+      default: return 'bg-white border-masters-green/10 text-masters-dark';
     }
   };
 
-  const getRankEmoji = (rank) => {
+  const getRankDisplay = (rank) => {
     switch (rank) {
-      case 1: return '🥇';
-      case 2: return '🥈';
-      case 3: return '🥉';
-      default: return `#${rank}`;
+      case 1: return <span className="position-badge position-1">1</span>;
+      case 2: return <span className="position-badge position-2">2</span>;
+      case 3: return <span className="position-badge position-3">3</span>;
+      default: return <span className="position-badge position-other">{rank}</span>;
     }
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="golf-card">
+      <div className="golf-card masters-gradient-subtle">
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-gray-900">
-            🏆 Pool Standings
-          </h2>
-          <div className="text-sm text-gray-500">
+          <div>
+            <h2 className="text-2xl font-bold text-masters-dark mb-1">
+              Pool Standings
+            </h2>
+            {poolStandings.length > 0 && (
+              <p className="text-masters-green text-sm">
+                {poolStandings.length} participants • Masters Tournament 2026
+              </p>
+            )}
+          </div>
+          <div className="text-xs text-masters-green/70">
             {lastUpdated && (
-              <>Last updated: {lastUpdated.toLocaleTimeString()}</>
+              <>Updated: {lastUpdated.toLocaleTimeString()}</>
             )}
           </div>
         </div>
-
-        {poolStandings.length > 0 && (
-          <p className="text-gray-600 mt-2">
-            {poolStandings.length} participants competing
-          </p>
-        )}
       </div>
 
       {/* Pool Rules Summary (if available) */}
@@ -137,11 +138,9 @@ const PoolStandings = () => {
                     key={participant.name || index}
                     className={`border-b border-gray-100 hover:bg-gray-50 ${getRankColor(participant.currentRank)}`}
                   >
-                    <td className="py-3 px-4">
-                      <div className="flex items-center">
-                        <span className="text-lg">
-                          {getRankEmoji(participant.currentRank)}
-                        </span>
+                    <td className="py-4 px-4">
+                      <div className="flex items-center justify-center">
+                        {getRankDisplay(participant.currentRank)}
                       </div>
                     </td>
                     <td className="py-3 px-4">
@@ -149,14 +148,14 @@ const PoolStandings = () => {
                         {participant.name || `Participant ${index + 1}`}
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-center">
-                      <span className="text-xl font-bold text-golf-green">
+                    <td className="py-4 px-4 text-center">
+                      <span className="text-2xl font-bold text-masters-green">
                         {participant.totalScore}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-center">
-                      <span className="text-lg">
-                        {participant.weeklyScore || 0}
+                    <td className="py-4 px-4 text-center">
+                      <span className="text-lg text-masters-green/70 font-medium">
+                        +{participant.weeklyScore || 0}
                       </span>
                     </td>
                     <td className="py-3 px-4">
@@ -180,17 +179,17 @@ const PoolStandings = () => {
           </div>
         )}
 
-        <div className="mt-4 flex justify-between items-center">
+        <div className="mt-6 flex justify-between items-center pt-4 border-t border-masters-green/10">
           <button
             onClick={fetchData}
             disabled={loading}
-            className="golf-button text-sm disabled:opacity-50"
+            className="golf-button-secondary text-sm disabled:opacity-50"
           >
             {loading ? 'Updating...' : 'Refresh Data'}
           </button>
 
-          <div className="text-xs text-gray-500">
-            Updates automatically every 4 hours
+          <div className="text-xs text-masters-green/70">
+            Auto-updates every 4 hours
           </div>
         </div>
       </div>

@@ -157,18 +157,18 @@ const Analytics = () => {
   return (
     <div className="space-y-6">
       {/* Analytics Header */}
-      <div className="golf-card bg-gradient-to-r from-blue-50 to-green-50">
+      <div className="golf-card masters-gradient-subtle">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">📊 Pool Analytics & Insights</h1>
-            <p className="text-gray-600">
-              Comprehensive analysis of your golf pool performance and trends
+            <h1 className="text-3xl font-bold text-masters-dark mb-2">Pool Analytics & Insights</h1>
+            <p className="text-masters-green">
+              Comprehensive analysis and performance trends
             </p>
           </div>
           {currentMajor && (
             <div className="text-right">
-              <div className="text-sm text-gray-500">Current Tournament</div>
-              <div className="font-semibold text-golf-green">{currentMajor.name}</div>
+              <div className="text-sm text-masters-green/70">Live Tournament</div>
+              <div className="font-semibold text-masters-green text-lg">{currentMajor.name}</div>
             </div>
           )}
         </div>
@@ -177,24 +177,24 @@ const Analytics = () => {
       {/* Key Insights Summary */}
       {insights && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="golf-card text-center">
-            <div className="text-2xl font-bold text-golf-green">{insights.topScore}</div>
-            <div className="text-sm text-gray-600">Top Score</div>
-            <div className="text-xs text-gray-500 mt-1">{insights.leader}</div>
+          <div className="golf-card text-center bg-masters-gold/5 border-masters-gold/20">
+            <div className="text-3xl font-bold text-masters-gold">{insights.topScore}</div>
+            <div className="text-sm text-masters-dark/70 font-medium">Leading Score</div>
+            <div className="text-xs text-masters-green mt-1">{insights.leader}</div>
           </div>
           <div className="golf-card text-center">
-            <div className="text-2xl font-bold text-blue-600">{insights.avgScore}</div>
-            <div className="text-sm text-gray-600">Average Score</div>
+            <div className="text-3xl font-bold text-masters-green">{insights.avgScore}</div>
+            <div className="text-sm text-masters-dark/70 font-medium">Average Score</div>
           </div>
           <div className="golf-card text-center">
-            <div className="text-2xl font-bold text-purple-600">{insights.totalParticipants}</div>
-            <div className="text-sm text-gray-600">Participants</div>
+            <div className="text-3xl font-bold text-masters-light">{insights.totalParticipants}</div>
+            <div className="text-sm text-masters-dark/70 font-medium">Participants</div>
           </div>
           <div className="golf-card text-center">
-            <div className="text-2xl font-bold text-orange-600">
+            <div className="text-3xl font-bold text-masters-dark">
               {Math.round(insights.competitiveness)}
             </div>
-            <div className="text-sm text-gray-600">Lead Margin</div>
+            <div className="text-sm text-masters-dark/70 font-medium">Lead Margin</div>
           </div>
         </div>
       )}

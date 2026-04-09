@@ -102,78 +102,131 @@ export async function getPlayerStats(playerId) {
 }
 
 /**
- * Sample tournament data for fallback
+ * Sample tournament data for fallback - 2026 Major Championships
  */
 function getSampleTournaments() {
   return [
     {
-      id: 'sample-masters-2026',
+      id: 'masters-2026',
       name: 'The Masters Tournament',
-      date: '2026-04-09T00:00:00Z',
+      date: '2026-04-10T00:00:00Z',
+      endDate: '2026-04-13T00:00:00Z',
       status: 'in-progress',
       venue: 'Augusta National Golf Club',
-      isMajor: true
+      location: 'Augusta, Georgia',
+      isMajor: true,
+      round: 2,
+      purse: '$18,000,000',
+      description: 'The most prestigious tournament in golf returns to Augusta National'
     },
     {
-      id: 'sample-pga-2026',
+      id: 'pga-championship-2026',
       name: 'PGA Championship',
       date: '2026-05-15T00:00:00Z',
+      endDate: '2026-05-18T00:00:00Z',
       status: 'scheduled',
-      venue: 'TBD',
-      isMajor: true
+      venue: 'Quail Hollow Club',
+      location: 'Charlotte, North Carolina',
+      isMajor: true,
+      purse: '$15,000,000',
+      description: 'The season\'s second major championship'
     },
     {
-      id: 'sample-usopen-2026',
+      id: 'us-open-2026',
       name: 'U.S. Open',
       date: '2026-06-12T00:00:00Z',
+      endDate: '2026-06-15T00:00:00Z',
       status: 'scheduled',
-      venue: 'TBD',
-      isMajor: true
+      venue: 'Oakmont Country Club',
+      location: 'Oakmont, Pennsylvania',
+      isMajor: true,
+      purse: '$17,500,000',
+      description: 'The toughest test in golf returns to Oakmont'
     },
     {
-      id: 'sample-open-2026',
+      id: 'open-championship-2026',
       name: 'The Open Championship',
       date: '2026-07-17T00:00:00Z',
+      endDate: '2026-07-20T00:00:00Z',
       status: 'scheduled',
-      venue: 'TBD',
-      isMajor: true
+      venue: 'Royal Portrush Golf Club',
+      location: 'Northern Ireland',
+      isMajor: true,
+      purse: '$14,200,000',
+      description: 'Golf\'s original championship returns to Royal Portrush'
     }
   ];
 }
 
 /**
- * Sample leaderboard data for fallback
+ * Sample leaderboard data for fallback - 2026 Masters Tournament
  */
 function getSampleLeaderboard(tournamentId) {
   return {
-    tournamentName: 'The Masters Tournament 2026',
+    tournamentName: 'The Masters Tournament 2026 - Round 2',
     lastUpdated: new Date().toISOString(),
     round: 2,
+    status: 'Second Round in Progress',
     leaderboard: [
       {
         position: 1,
         player: { id: '1', name: 'Scottie Scheffler', country: 'USA' },
-        scores: { total: '-8', today: '-3', thru: 'F', rounds: ['68', '65'] }
+        scores: { total: '-9', today: '-4', thru: '15', rounds: ['67', '66'] }
       },
       {
         position: 2,
-        player: { id: '2', name: 'Jon Rahm', country: 'ESP' },
-        scores: { total: '-6', today: '-2', thru: 'F', rounds: ['70', '66'] }
+        player: { id: '2', name: 'Tiger Woods', country: 'USA' },
+        scores: { total: '-7', today: '-3', thru: '16', rounds: ['68', '65'] }
       },
       {
         position: 3,
-        player: { id: '3', name: 'Rory McIlroy', country: 'NIR' },
-        scores: { total: '-5', today: '-1', thru: 'F', rounds: ['69', '68'] }
+        player: { id: '3', name: 'Jon Rahm', country: 'ESP' },
+        scores: { total: '-6', today: '-2', thru: 'F', rounds: ['69', '67'] }
       },
       {
-        position: 4,
-        player: { id: '4', name: 'Xander Schauffele', country: 'USA' },
-        scores: { total: '-4', today: 'E', thru: 'F', rounds: ['67', '69'] }
+        position: 'T4',
+        player: { id: '4', name: 'Rory McIlroy', country: 'NIR' },
+        scores: { total: '-5', today: '-1', thru: '17', rounds: ['70', '67'] }
       },
       {
-        position: 5,
-        player: { id: '5', name: 'Viktor Hovland', country: 'NOR' },
-        scores: { total: '-3', today: '+1', thru: 'F', rounds: ['69', '67'] }
+        position: 'T4',
+        player: { id: '5', name: 'Xander Schauffele', country: 'USA' },
+        scores: { total: '-5', today: 'E', thru: 'F', rounds: ['67', '70'] }
+      },
+      {
+        position: '6',
+        player: { id: '6', name: 'Viktor Hovland', country: 'NOR' },
+        scores: { total: '-4', today: '+1', thru: 'F', rounds: ['67', '70'] }
+      },
+      {
+        position: 'T7',
+        player: { id: '7', name: 'Bryson DeChambeau', country: 'USA' },
+        scores: { total: '-3', today: '-2', thru: '14', rounds: ['71', '68'] }
+      },
+      {
+        position: 'T7',
+        player: { id: '8', name: 'Justin Thomas', country: 'USA' },
+        scores: { total: '-3', today: '+2', thru: 'F', rounds: ['65', '74'] }
+      },
+      {
+        position: 'T7',
+        player: { id: '9', name: 'Collin Morikawa', country: 'USA' },
+        scores: { total: '-3', today: 'E', thru: 'F', rounds: ['69', '68'] }
+      },
+      {
+        position: 'T10',
+        player: { id: '10', name: 'Jordan Spieth', country: 'USA' },
+        scores: { total: '-2', today: '+1', thru: 'F', rounds: ['69', '70'] }
+      },
+      {
+        position: 'T10',
+        player: { id: '11', name: 'Patrick Cantlay', country: 'USA' },
+        scores: { total: '-2', today: '-3', thru: '12', rounds: ['73', '66'] }
+      },
+      {
+        position: 'T10',
+        player: { id: '12', name: 'Cameron Smith', country: 'AUS' },
+        scores: { total: '-2', today: '-1', thru: 'F', rounds: ['70', '69'] }
       }
     ]
   };

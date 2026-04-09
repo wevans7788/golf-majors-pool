@@ -64,31 +64,32 @@ export async function generatePoolSummary(poolData, poolRules, tournamentData) {
 
   // Create context prompt with pool rules and current data
   const prompt = `
-You are a golf analyst providing a weekly summary for a golf majors pool. Use the following information:
+You are a hilariously sarcastic golf commentator with a sharp wit providing a weekly roast... I mean "summary" for a golf majors pool. You're not afraid to call out bad picks, celebrate lucky breaks, and add some spicy commentary. Use the following information:
 
 POOL RULES:
 ${JSON.stringify(poolRules.scoringSystem, null, 2)}
 
-CURRENT POOL STANDINGS:
+CURRENT POOL STANDINGS (aka "The Leaderboard of Dreams and Broken Hopes"):
 ${poolStandings.slice(0, 10).map(p =>
   `${p.currentRank}. ${p.name}: ${p.totalScore} points`
 ).join('\n')}
 
 CURRENT TOURNAMENT: ${currentMajor?.name || 'No active major'}
 ${currentLeaderboard ? `
-GOLF LEADERBOARD:
+ACTUAL GOLF LEADERBOARD (The People Who Can Actually Play):
 ${currentLeaderboard.leaderboard.slice(0, 5).map(p =>
   `${p.position}. ${p.player.name} (${p.scores.total})`
 ).join('\n')}
 ` : ''}
 
-Please write an engaging weekly pool summary (2-3 paragraphs) that:
-1. Highlights the current pool leader and their strategy
-2. Mentions interesting tournament developments
-3. Provides insights about upcoming opportunities
-4. Uses a friendly, conversational tone for golf fans
+Write a HILARIOUSLY ENTERTAINING weekly pool roast (2-3 paragraphs) that:
+1. Mercilessly celebrates the pool leader (but with playful backhanded compliments)
+2. Throws shade at participants with terrible picks (all in good fun)
+3. Makes witty observations about tournament drama and upsets
+4. Includes golf puns, sarcastic commentary, and playful trash talk
+5. Ends with dramatic predictions for upcoming scoring opportunities
 
-Focus on the pool competition, not just the tournament results.
+Remember: Be edgy, funny, and entertaining while keeping it friendly competition banter. Think "roast comedy" meets golf commentary. Make people laugh while they check their scores!
 `;
 
   try {
@@ -125,24 +126,25 @@ export async function generateTournamentRecap(tournamentData, poolData) {
   }
 
   const prompt = `
-You are writing a tournament recap for a golf pool after ${currentMajor.name}.
+You are a wildly entertaining sports broadcaster writing a SPICY tournament recap for ${currentMajor.name} - think if a golf commentator had a few too many beers and decided to tell the REAL story!
 
-TOURNAMENT WINNER: ${currentLeaderboard.leaderboard[0]?.player?.name || 'Unknown'}
-FINAL LEADERBOARD:
+TOURNAMENT CHAMPION: ${currentLeaderboard.leaderboard[0]?.player?.name || 'Unknown'} (The Absolute Legend!)
+FINAL LEADERBOARD (The Good, The Bad, and The "Did They Even Show Up?"):
 ${currentLeaderboard.leaderboard.slice(0, 8).map(p =>
   `${p.position}. ${p.player.name} (${p.scores.total}) - ${p.player.country}`
 ).join('\n')}
 
-POOL IMPACT:
-Pool participants had picks on various players. The tournament results affected pool standings.
+POOL CARNAGE REPORT:
+Some pool participants are now buying drinks, others are crying into their scorecards. The tournament results have DRAMATICALLY shaken up the pool standings like a snow globe in an earthquake!
 
-Write an exciting 2-3 paragraph recap that:
-1. Celebrates the tournament winner and key moments
-2. Mentions how the results impacted pool standings
-3. Highlights any dramatic finishes or surprises
-4. Sets up anticipation for the next major
+Write an ABSOLUTELY HILARIOUS 2-3 paragraph recap that:
+1. Dramatically celebrates the winner with over-the-top commentary
+2. Roasts any major collapses or choke jobs (playfully!)
+3. Makes witty observations about which pool participants struck gold vs. struck out
+4. Includes golf puns, dramatic metaphors, and cheeky commentary
+5. Builds MAXIMUM hype for the next major with comedy
 
-Use an enthusiastic sports commentary tone.
+Be outrageously entertaining! Think "drunk golf commentator meets comedy roast." Make it so funny people will share it with friends!
 `;
 
   try {
@@ -214,22 +216,23 @@ export async function generateTournamentPreview(upcomingTournament, poolData) {
   const { poolStandings } = poolData;
 
   const prompt = `
-Write a preview for the upcoming ${upcomingTournament.name} at ${upcomingTournament.venue}.
+You're a hilariously dramatic golf prophet writing a crystal ball preview for the upcoming ${upcomingTournament.name} at ${upcomingTournament.venue}. You see all, know all, and aren't afraid to make bold (and ridiculous) predictions!
 
-TOURNAMENT INFO:
-Date: ${upcomingTournament.date}
-Venue: ${upcomingTournament.venue}
+TOURNAMENT INTEL:
+Date: ${upcomingTournament.date} (Mark your calendars, peasants!)
+Venue: ${upcomingTournament.venue} (Where dreams go to die... or soar!)
 
-POOL CONTEXT:
-Pool participants have made their picks and are competing for points based on player performance.
+POOL PARTICIPANT STATUS:
+These brave souls have made their picks and are about to find out if they're golf geniuses or complete disasters. The point-scoring potential is MAXIMUM!
 
-Write an exciting 2 paragraph preview that:
-1. Builds anticipation for the tournament and venue
-2. Discusses potential contenders and dark horses
-3. Mentions strategy considerations for pool participants
-4. Creates excitement about scoring opportunities
+Write an OUTRAGEOUSLY ENTERTAINING 2-paragraph preview that:
+1. Builds INSANE hype for the tournament with dramatic metaphors and over-the-top descriptions
+2. Makes wickedly funny predictions about contenders, dark horses, and inevitable choke artists
+3. Playfully roasts pool participants' strategy decisions
+4. Uses golf puns, dramatic flair, and cheeky commentary
+5. Ends with a BOLD prediction that will either make you look like a genius or a complete fool
 
-Use an enthusiastic preview tone like a sports broadcaster.
+Be ridiculously entertaining! Think "WWE announcer meets golf commentator meets comedy central roast." Make people laugh until they cry!
 `;
 
   try {
@@ -263,12 +266,19 @@ function getFallbackSummary(poolData, tournamentData) {
   const leader = poolData.poolStandings[0];
   const tournament = tournamentData.currentMajor;
 
+  const edgyComments = [
+    `${leader?.name || 'Some mysterious pool wizard'} is absolutely CRUSHING IT with ${leader?.totalScore || 0} points! 🔥`,
+    `Meanwhile, everyone else is probably questioning their life choices and googling "how to pick better golfers." 😅`,
+    `${tournament ? `The ${tournament.name} is happening at ${tournament.venue}, where dreams are made and pool picks go to die!` : 'No major tournament active, which means more time to stress about your terrible picks! 😬'}`,
+    `Stay tuned for more pool carnage and questionable decision-making in the majors! ⛳`
+  ];
+
   return {
     type: 'weekly_summary',
-    title: 'Weekly Pool Update',
-    content: `Pool Update: ${leader?.name || 'TBD'} currently leads the pool standings with ${leader?.totalScore || 0} points. ${tournament ? `The ${tournament.name} is ${tournament.status} at ${tournament.venue}.` : 'No major tournament is currently active.'} Pool participants should stay tuned for the next major championship and scoring opportunities. The competition remains tight with several participants in contention for the top spots.`,
+    title: 'Weekly Pool Roast (AI Edition)',
+    content: edgyComments.join(' '),
     generated_at: new Date().toISOString(),
-    tournament: tournament?.name || 'Off-season'
+    tournament: tournament?.name || 'Off-season Shenanigans'
   };
 }
 
@@ -276,12 +286,20 @@ function getFallbackRecap(tournamentData) {
   const tournament = tournamentData.currentMajor;
   const winner = tournamentData.currentLeaderboard?.leaderboard[0];
 
+  const spicyRecap = [
+    `🏆 LADIES AND GENTLEMEN, ${tournament?.name || 'THE TOURNAMENT'} IS OFFICIALLY IN THE BOOKS!`,
+    winner ? `${winner.player.name} just absolutely DOMINATED the field like they were playing against a bunch of weekend hackers! 🔥` : 'Someone won, we think! 🤷‍♂️',
+    `Pool participants are either celebrating like they just won the lottery or crying into their scorecards wondering why they thought that long shot would pay off. 😅`,
+    `The pool standings have been OFFICIALLY shuffled like a deck of cards in Vegas! Some folks are buying drinks, others are buying tissues. 🍻😭`,
+    `Next major can't come fast enough - time to make some NEW questionable picks and pray to the golf gods! ⛳🙏`
+  ];
+
   return {
     type: 'tournament_recap',
-    title: `${tournament?.name || 'Tournament'} Recap`,
-    content: `${tournament?.name || 'The tournament'} has concluded${winner ? ` with ${winner.player.name} claiming victory` : ''}. This major championship provided exciting moments and impacted pool standings as participants' picks performed throughout the competition. Looking ahead to the next major, pool members should analyze the results and consider their strategies for upcoming tournaments.`,
+    title: `${tournament?.name || 'Epic Tournament'} RECAP (SPICY EDITION) 🌶️`,
+    content: spicyRecap.join(' '),
     generated_at: new Date().toISOString(),
-    tournament: tournament?.name || 'Tournament'
+    tournament: tournament?.name || 'Tournament of Champions (and Chokers)'
   };
 }
 

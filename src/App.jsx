@@ -68,22 +68,25 @@ function App() {
         ) : currentView === 'dashboard' ? (
           <>
             {/* Dashboard Header with Navigation */}
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-              <h1 className="text-3xl font-bold text-gray-900">
-                🏌️ Golf Majors Pool Dashboard
-              </h1>
-              <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+              <div>
+                <h1 className="text-4xl font-bold text-masters-dark mb-2">
+                  Golf Majors Pool 2026
+                </h1>
+                <p className="text-masters-green text-lg">The Masters Tournament • Augusta National</p>
+              </div>
+              <div className="flex gap-3">
                 <button
                   onClick={() => handleViewChange('analytics')}
-                  className="golf-button text-sm"
+                  className="golf-button-secondary text-sm"
                 >
-                  📊 Analytics
+                  Analytics
                 </button>
                 <button
                   onClick={() => handleViewChange('setup')}
-                  className="text-golf-green hover:text-golf-accent font-medium text-sm px-3 py-2"
+                  className="text-masters-green hover:text-masters-dark font-medium text-sm px-4 py-2 transition-colors duration-200"
                 >
-                  ⚙️ Settings
+                  Settings
                 </button>
               </div>
             </div>
@@ -117,22 +120,25 @@ function App() {
         ) : (
           <>
             {/* Analytics Header */}
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-              <h1 className="text-3xl font-bold text-gray-900">
-                📊 Pool Analytics & Charts
-              </h1>
-              <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+              <div>
+                <h1 className="text-4xl font-bold text-masters-dark mb-2">
+                  Pool Analytics & Insights
+                </h1>
+                <p className="text-masters-green text-lg">Performance data and trends</p>
+              </div>
+              <div className="flex gap-3">
                 <button
                   onClick={() => handleViewChange('dashboard')}
                   className="golf-button text-sm"
                 >
-                  🏌️ Dashboard
+                  Dashboard
                 </button>
                 <button
                   onClick={() => handleViewChange('setup')}
-                  className="text-golf-green hover:text-golf-accent font-medium text-sm px-3 py-2"
+                  className="text-masters-green hover:text-masters-dark font-medium text-sm px-4 py-2 transition-colors duration-200"
                 >
-                  ⚙️ Settings
+                  Settings
                 </button>
               </div>
             </div>

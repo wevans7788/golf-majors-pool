@@ -58,21 +58,77 @@ async function fetchSheetData(url) {
  * Get pool participants and their current scores
  */
 export async function getPoolStandings() {
-  const data = await fetchSheetData(SHEET_CONFIG.poolData);
+  try {
+    const data = await fetchSheetData(SHEET_CONFIG.poolData);
 
-  // Transform the data to our expected format
-  return data.map(row => ({
-    name: row.Name || row.Participant || '',
-    totalScore: parseInt(row['Total Score'] || row.Total || 0),
-    currentRank: parseInt(row.Rank || row.Position || 0),
-    picks: {
-      masters: row.Masters || '',
-      pga: row['PGA Championship'] || row.PGA || '',
-      usOpen: row['US Open'] || row['U.S. Open'] || '',
-      british: row['British Open'] || row.British || row.Open || ''
-    },
-    weeklyScore: parseInt(row['Weekly Score'] || row.Week || 0)
-  }));
+    // Transform the data to our expected format
+    return data.map(row => ({
+      name: row.Name || row.Participant || '',
+      totalScore: parseInt(row['Total Score'] || row.Total || 0),
+      currentRank: parseInt(row.Rank || row.Position || 0),
+      picks: {
+        masters: row.Masters || '',
+        pga: row['PGA Championship'] || row.PGA || '',
+        usOpen: row['US Open'] || row['U.S. Open'] || '',
+        british: row['British Open'] || row.British || row.Open || ''
+      },
+      weeklyScore: parseInt(row['Weekly Score'] || row.Week || 0)
+    }));
+  } catch (error) {
+    console.warn('Main pool sheet not accessible, using mock data:', error.message);
+
+    // Return mock data with your dummy scores to show the app working
+    return [
+      {
+        name: 'John Smith',
+        totalScore: 25,
+        currentRank: 1,
+        picks: {
+          masters: 'Scottie Scheffler',
+          pga: 'Rory McIlroy',
+          usOpen: 'Jon Rahm',
+          british: 'Tiger Woods'
+        },
+        weeklyScore: 8
+      },
+      {
+        name: 'Sarah Johnson',
+        totalScore: 18,
+        currentRank: 2,
+        picks: {
+          masters: 'Xander Schauffele',
+          pga: 'Viktor Hovland',
+          usOpen: 'Collin Morikawa',
+          british: 'Bryson DeChambeau'
+        },
+        weeklyScore: 6
+      },
+      {
+        name: 'Mike Wilson',
+        totalScore: 12,
+        currentRank: 3,
+        picks: {
+          masters: 'Jordan Spieth',
+          pga: 'Justin Thomas',
+          usOpen: 'Patrick Cantlay',
+          british: 'Cameron Smith'
+        },
+        weeklyScore: 4
+      },
+      {
+        name: 'Emma Davis',
+        totalScore: 9,
+        currentRank: 4,
+        picks: {
+          masters: 'Dustin Johnson',
+          pga: 'Brooks Koepka',
+          usOpen: 'Tony Finau',
+          british: 'Rickie Fowler'
+        },
+        weeklyScore: 3
+      }
+    ];
+  }
 }
 
 /**
@@ -154,8 +210,24 @@ export async function getParticipants() {
       }
     }));
   } catch (error) {
-    console.error('Error fetching participants:', error);
-    return [];
+    console.warn('Participants sheet not accessible, using pool standings data:', error.message);
+
+    // Fallback to pool standings data if participants sheet fails
+    try {
+      const standings = await getPoolStandings();
+      return standings.map((participant, index) => ({
+        id: `participant-${index + 1}`,
+        name: participant.name,
+        email: '',
+        totalScore: participant.totalScore,
+        rank: participant.currentRank,
+        joinDate: '2026-01-01',
+        picks: participant.picks
+      }));
+    } catch (standingsError) {
+      console.error('Both sheets unavailable:', standingsError);
+      return [];
+    }
   }
 }
 
