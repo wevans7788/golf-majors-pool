@@ -80,12 +80,28 @@ export function useGolfData() {
    */
   const getCurrentMajor = () => {
     const now = new Date();
-    return tournaments.find(t => {
+    console.log('🏌️ Finding current major. Today is:', now.toISOString());
+
+    const currentMajor = tournaments.find(t => {
       if (!t.isMajor) return false;
-      const tournamentDate = new Date(t.date);
-      const daysDiff = Math.abs(now - tournamentDate) / (1000 * 60 * 60 * 24);
-      return daysDiff <= 7; // Within a week of the tournament
+
+      const startDate = new Date(t.date);
+      const endDate = t.endDate ? new Date(t.endDate) : new Date(startDate.getTime() + 4 * 24 * 60 * 60 * 1000); // 4 days later if no end date
+
+      console.log(`📅 Checking ${t.name}: ${startDate.toISOString()} to ${endDate.toISOString()}`);
+
+      // Tournament is current if we're within 2 days before start or during the tournament
+      const daysBefore = (startDate - now) / (1000 * 60 * 60 * 24);
+      const daysAfter = (now - endDate) / (1000 * 60 * 60 * 24);
+
+      const isCurrent = daysBefore <= 2 && daysAfter <= 1;
+      console.log(`   Days before start: ${daysBefore.toFixed(1)}, Days after end: ${daysAfter.toFixed(1)}, Is current: ${isCurrent}`);
+
+      return isCurrent;
     });
+
+    console.log('🎯 Current major found:', currentMajor?.name || 'None');
+    return currentMajor;
   };
 
   /**

@@ -28,6 +28,11 @@ const LLM_CONFIG = {
  */
 async function makeLLMRequest(prompt, options = {}) {
   try {
+    console.log('🤖 Attempting LLM API request to:', LLM_CONFIG.baseUrl);
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+
     const response = await fetch(LLM_CONFIG.baseUrl, {
       method: 'POST',
       headers: {
@@ -40,18 +45,29 @@ async function makeLLMRequest(prompt, options = {}) {
           ...LLM_CONFIG.parameters,
           ...options.parameters
         }
-      })
+      }),
+      signal: controller.signal
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`LLM API Error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
-    return data.generated_text || data.text || 'Unable to generate content';
+    const generatedText = data.generated_text || data.text || 'Unable to generate content';
+
+    console.log('✅ LLM API response received:', generatedText.substring(0, 100) + '...');
+    return generatedText;
   } catch (error) {
-    console.error('LLM API Error:', error);
-    throw new Error(`Failed to generate AI content: ${error.message}`);
+    if (error.name === 'AbortError') {
+      console.error('🚨 LLM API timeout - request took too long');
+      throw new Error('AI service timeout - using fallback content');
+    }
+
+    console.error('🚨 LLM API Error:', error.message);
+    throw new Error(`AI service unavailable: ${error.message}`);
   }
 }
 

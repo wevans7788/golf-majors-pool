@@ -42,14 +42,36 @@ function parseCSV(csvText) {
  */
 async function fetchSheetData(url) {
   try {
-    const response = await fetch(url);
+    console.log('🔍 Attempting to fetch sheet data from:', url);
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'text/csv,text/plain,*/*',
+        'Cache-Control': 'no-cache'
+      },
+      mode: 'cors'
+    });
+
+    console.log('📡 Response status:', response.status);
+    console.log('📡 Response headers:', response.headers);
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+
     const csvText = await response.text();
-    return parseCSV(csvText);
+    console.log('📄 First 200 chars of response:', csvText.substring(0, 200));
+
+    if (csvText.includes('<html>') || csvText.includes('<!DOCTYPE')) {
+      throw new Error('Received HTML instead of CSV - sheet may not be properly published');
+    }
+
+    const parsed = parseCSV(csvText);
+    console.log('✅ Successfully parsed', parsed.length, 'rows from CSV');
+    return parsed;
   } catch (error) {
-    console.error('Error fetching sheet data:', error);
+    console.error('❌ Error fetching sheet data:', error);
     throw new Error(`Failed to fetch sheet data: ${error.message}`);
   }
 }
@@ -75,7 +97,8 @@ export async function getPoolStandings() {
       weeklyScore: parseInt(row['Weekly Score'] || row.Week || 0)
     }));
   } catch (error) {
-    console.warn('Main pool sheet not accessible, using mock data:', error.message);
+    console.error('🚨 SHEETS ERROR - Main pool sheet not accessible:', error.message);
+    console.log('🔄 Using mock data as fallback. Check browser console for details.');
 
     // Return mock data with your dummy scores to show the app working
     return [
@@ -239,30 +262,55 @@ export function updateSheetConfig(newConfig) {
 }
 
 /**
- * Test connection to sheets
+ * Test connection to sheets with detailed diagnostics
  */
 export async function testSheetConnection() {
   const tests = [];
 
   for (const [name, url] of Object.entries(SHEET_CONFIG)) {
     try {
+      console.log(`🧪 Testing sheet: ${name}`);
       const data = await fetchSheetData(url);
       tests.push({
         sheet: name,
         status: 'success',
         rowCount: data.length,
-        columns: data[0] ? Object.keys(data[0]) : []
+        columns: data[0] ? Object.keys(data[0]) : [],
+        sampleData: data[0] || null
       });
     } catch (error) {
       tests.push({
         sheet: name,
         status: 'error',
-        error: error.message
+        error: error.message,
+        url: url
       });
     }
   }
 
+  console.log('📊 Sheet connection test results:', tests);
   return tests;
+}
+
+/**
+ * Quick test function to check a single sheet URL
+ */
+export async function quickSheetTest(url) {
+  try {
+    console.log('🧪 Quick testing URL:', url);
+    const response = await fetch(url);
+    const text = await response.text();
+
+    return {
+      status: response.status,
+      contentType: response.headers.get('content-type'),
+      firstChars: text.substring(0, 100),
+      isHTML: text.includes('<html>'),
+      length: text.length
+    };
+  } catch (error) {
+    return { error: error.message };
+  }
 }
 
 export default {

@@ -109,15 +109,16 @@ function getSampleTournaments() {
     {
       id: 'masters-2026',
       name: 'The Masters Tournament',
-      date: '2026-04-10T00:00:00Z',
-      endDate: '2026-04-13T00:00:00Z',
+      date: '2026-04-10T08:00:00Z',
+      endDate: '2026-04-13T18:00:00Z',
       status: 'in-progress',
       venue: 'Augusta National Golf Club',
       location: 'Augusta, Georgia',
       isMajor: true,
       round: 2,
       purse: '$18,000,000',
-      description: 'The most prestigious tournament in golf returns to Augusta National'
+      description: 'The most prestigious tournament in golf returns to Augusta National',
+      currentRound: 'Second Round in Progress'
     },
     {
       id: 'pga-championship-2026',

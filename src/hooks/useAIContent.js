@@ -160,36 +160,115 @@ export function useAIContent() {
    * Auto-generate content based on data availability
    */
   const autoGenerateContent = async (poolData, tournamentData, poolRules) => {
-    if (!poolData?.poolStandings?.length) return;
+    if (!poolData?.poolStandings?.length) {
+      console.log('🤖 No pool data available for AI content generation');
+      return;
+    }
 
-    // Check if we need new weekly summary (generate weekly)
+    console.log('🤖 Auto-generating AI content...');
+
+    // Check if we need new weekly summary
     const lastSummary = content.find(c => c.type === 'weekly_summary');
     const shouldGenerateWeekly = !lastSummary ||
       (Date.now() - new Date(lastSummary.generated_at).getTime()) > 7 * 24 * 60 * 60 * 1000; // 1 week
 
     if (shouldGenerateWeekly) {
+      console.log('📊 Generating weekly summary...');
+      setLoading(true);
+
       try {
-        await generateWeeklySummary(poolData, poolRules, tournamentData);
+        // Try real AI generation with timeout
+        const summaryPromise = generateWeeklySummary(poolData, poolRules, tournamentData);
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('AI generation timeout')), 5000) // 5 second timeout
+        );
+
+        await Promise.race([summaryPromise, timeoutPromise]);
+        console.log('✅ AI summary generated successfully');
       } catch (err) {
-        console.log('Auto-generation failed, will use fallback content');
+        console.log('⚠️ AI generation failed, using hilarious fallback:', err.message);
+
+        // Immediate fallback with entertaining content
+        const fallbackSummary = generateFallbackWeeklySummary(poolData, tournamentData);
+        addContent(fallbackSummary);
+      } finally {
+        setLoading(false);
       }
     }
 
-    // Generate tournament preview if upcoming major
-    if (tournamentData?.upcomingMajors?.length > 0) {
-      const nextMajor = tournamentData.upcomingMajors[0];
-      const hasPreview = content.some(c =>
-        c.type === 'tournament_preview' && c.tournament === nextMajor.name
+    // Generate tournament content if current major exists
+    if (tournamentData?.currentMajor) {
+      const currentMajor = tournamentData.currentMajor;
+      const hasRecap = content.some(c =>
+        c.type === 'tournament_recap' && c.tournament === currentMajor.name
       );
 
-      if (!hasPreview) {
+      if (!hasRecap) {
+        console.log('🏆 Generating tournament recap...');
         try {
-          await generateTournamentPreview(nextMajor, poolData);
+          const fallbackRecap = generateFallbackTournamentRecap(currentMajor, poolData);
+          addContent(fallbackRecap);
         } catch (err) {
-          console.log('Preview generation failed');
+          console.log('Recap generation failed:', err.message);
         }
       }
     }
+  };
+
+  /**
+   * Generate entertaining fallback content immediately
+   */
+  const generateFallbackWeeklySummary = (poolData, tournamentData) => {
+    const leader = poolData.poolStandings[0];
+    const tournament = tournamentData?.currentMajor;
+
+    const spicyComments = [
+      `🔥 ${leader?.name || 'The Mystery Leader'} is absolutely DOMINATING with ${leader?.totalScore || 0} points!`,
+      `Meanwhile, everyone else is probably stress-eating and questioning their golf knowledge. 😅`,
+      tournament ?
+        `The ${tournament.name} is happening right now at ${tournament.venue}, where dreams are made and pool picks go to die! ⛳` :
+        'No major tournament active, so we have more time to analyze our questionable life choices! 🤔',
+      `Pool participants are either celebrating like they just discovered fire, or crying into their scorecards. 🍻😭`,
+      `Next update coming soon with more roasts, hot takes, and pool carnage! Stay tuned! 📺🔥`
+    ];
+
+    return {
+      type: 'weekly_summary',
+      title: 'Weekly Pool Roast (Instant Comedy Edition) 🌶️',
+      content: spicyComments.join(' '),
+      generated_at: new Date().toISOString(),
+      tournament: tournament?.name || 'Off-Season Shenanigans',
+      metadata: {
+        poolLeader: leader?.name || 'TBD',
+        totalParticipants: poolData.poolStandings.length,
+        activeTournament: tournament?.status === 'in-progress',
+        source: 'instant_fallback'
+      }
+    };
+  };
+
+  const generateFallbackTournamentRecap = (tournament, poolData) => {
+    const recapLines = [
+      `🏆 THE ${tournament.name.toUpperCase()} IS ABSOLUTELY ELECTRIC!`,
+      `Augusta National is serving up drama hotter than a Georgia summer! 🌡️`,
+      `Pool participants are either buying champagne or buying tissues - no in-between! 🍾😭`,
+      `The leaderboard is tighter than a golf grip in a lightning storm! ⚡`,
+      `Some folks are looking like geniuses, others like they picked names out of a hat while blindfolded! 🎩👨‍🦯`,
+      `Stay tuned for more Masters mayhem and pool pandemonium! 📺🔥`
+    ];
+
+    return {
+      type: 'tournament_recap',
+      title: `${tournament.name} LIVE DRAMA UPDATE! 🎭`,
+      content: recapLines.join(' '),
+      generated_at: new Date().toISOString(),
+      tournament: tournament.name,
+      metadata: {
+        tournamentStatus: tournament.status,
+        round: tournament.round || 2,
+        source: 'instant_fallback'
+      }
+    };
   };
 
   return {
@@ -209,6 +288,10 @@ export function useAIContent() {
     testConnection,
     clearContent,
     autoGenerateContent,
+
+    // Fallback generators (exposed for manual use)
+    generateFallbackWeeklySummary,
+    generateFallbackTournamentRecap,
 
     // Getters
     getContentByType,
