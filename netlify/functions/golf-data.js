@@ -239,13 +239,13 @@ function getSampleTournaments() {
     {
       id: 'masters-2026',
       name: 'The Masters Tournament',
-      date: '2026-04-10T00:00:00Z',
-      endDate: '2026-04-13T00:00:00Z',
+      date: '2026-04-09T11:00:00Z', // 6am EST = 11:00 UTC
+      endDate: '2026-04-12T23:00:00Z', // Sunday evening
       status: 'in-progress',
       venue: 'Augusta National Golf Club',
       location: 'Augusta, Georgia',
       isMajor: true,
-      round: 2
+      round: 1
     },
     {
       id: 'pga-championship-2026',
@@ -262,50 +262,50 @@ function getSampleTournaments() {
 
 function getSampleLeaderboard() {
   return {
-    tournamentName: 'The Masters Tournament 2026 - Round 2',
+    tournamentName: 'The Masters Tournament 2026 - Round 1',
     lastUpdated: new Date().toISOString(),
-    round: 2,
-    status: 'Second Round in Progress',
+    round: 1,
+    status: 'First Round in Progress',
     leaderboard: [
       {
         position: 1,
         player: { id: '1', name: 'Scottie Scheffler', country: 'USA' },
-        scores: { total: '-9', today: '-4', thru: '15', rounds: ['67', '66'] }
+        scores: { total: '-6', today: '-6', thru: '16', rounds: ['66'] }
       },
       {
         position: 2,
         player: { id: '2', name: 'Tiger Woods', country: 'USA' },
-        scores: { total: '-7', today: '-3', thru: '16', rounds: ['68', '65'] }
+        scores: { total: '-5', today: '-5', thru: '17', rounds: ['67'] }
       },
       {
-        position: 3,
+        position: 'T3',
         player: { id: '3', name: 'Jon Rahm', country: 'ESP' },
-        scores: { total: '-6', today: '-2', thru: 'F', rounds: ['69', '67'] }
+        scores: { total: '-4', today: '-4', thru: 'F', rounds: ['68'] }
       },
       {
-        position: 'T4',
+        position: 'T3',
         player: { id: '4', name: 'Rory McIlroy', country: 'NIR' },
-        scores: { total: '-5', today: '-1', thru: '17', rounds: ['70', '67'] }
+        scores: { total: '-4', today: '-4', thru: 'F', rounds: ['68'] }
       },
       {
-        position: 'T4',
+        position: 'T5',
         player: { id: '5', name: 'Xander Schauffele', country: 'USA' },
-        scores: { total: '-5', today: 'E', thru: 'F', rounds: ['67', '70'] }
+        scores: { total: '-3', today: '-3', thru: '15', rounds: ['69'] }
       },
       {
-        position: '6',
+        position: 'T5',
         player: { id: '6', name: 'Viktor Hovland', country: 'NOR' },
-        scores: { total: '-4', today: '+1', thru: 'F', rounds: ['67', '70'] }
+        scores: { total: '-3', today: '-3', thru: 'F', rounds: ['69'] }
       },
       {
         position: 'T7',
         player: { id: '7', name: 'Bryson DeChambeau', country: 'USA' },
-        scores: { total: '-3', today: '-2', thru: '14', rounds: ['71', '68'] }
+        scores: { total: '-2', today: '-2', thru: '14', rounds: ['70'] }
       },
       {
         position: 'T7',
         player: { id: '8', name: 'Justin Thomas', country: 'USA' },
-        scores: { total: '-3', today: '+2', thru: 'F', rounds: ['65', '74'] }
+        scores: { total: '-2', today: '-2', thru: 'F', rounds: ['70'] }
       }
     ]
   };
